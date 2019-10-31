@@ -51,7 +51,7 @@ func TestSimpleFatal(t *testing.T) {
 	expected, actual := 3, 2
 
 	if someSetup != nil {
-		t.Fatalf("set up failed, aborting test: %v", someSetup)
+		t.Fatalf("set up failed, aborting test: %v", someSetup) // HL
 	}
 	// Not executed // HL
 	if actual != expected {
@@ -63,10 +63,10 @@ func TestSimpleFatal(t *testing.T) {
 
 // start_TestVerbose OMIT
 func TestVerbose(t *testing.T) {
-	t.Log("only printed in verbose mode")
-	log.Println("log.Println: always printed") // HL
+	t.Log("only printed in verbose mode") // HL
+	log.Println("log.Println: always printed")
 
-	if testing.Verbose() {
+	if testing.Verbose() { // HL
 		log.Println("some vrebose, but really useful info")
 	}
 }
@@ -79,8 +79,8 @@ func TestShort(t *testing.T) {
 }
 
 func TestShortNotSoShort(t *testing.T) {
-	if testing.Short() {
-		t.Skip("Skip in short mode") // needs verbose to show this message
+	if testing.Short() { // HL
+		t.Skip("Skip in short mode") // needs verbose to show this message // HL
 	}
 	time.Sleep(3 * time.Second)
 }
@@ -95,7 +95,7 @@ func TestWithHelper(t *testing.T) {
 
 func helperFunction(t *testing.T, param string) string {
 	// start_helperFunction_line OMIT
-	t.Fatal("helperFunction setup failed")
+	t.Fatal("helperFunction setup failed") // HL
 	// end_helperFunction_line OMIT
 	return param
 }
@@ -108,7 +108,7 @@ func TestWithBetterHelper(t *testing.T) {
 }
 
 func betterHelperFunction(t *testing.T, fileName string) string {
-	t.Helper()
+	t.Helper() // HL
 	t.Fatal("betterHelperFunction setup failed")
 	return ""
 }
@@ -117,24 +117,27 @@ func betterHelperFunction(t *testing.T, fileName string) string {
 
 // start_TestTable OMIT
 func TestTableSimple(t *testing.T) {
+	// start_TestTable_tcs OMIT
 	tcs := []struct {
 		name string
 		val  float64
 		want float64
 	}{
-		{name: "the positive", val: 42, want: 42},
-		{name: "the negative", val: -42, want: 42},
-		{name: "zero", val: 0, want: 0},
+		{name: "the positive", val: 42, want: 42},  // HLtcs
+		{name: "the negative", val: -42, want: 42}, // HLtcs
+		{name: "zero", val: 0, want: 0},            // HLtcs
 	}
+	// end_TestTable_tcs OMIT
+	// start_TestTable_for OMIT
 	for _, tc := range tcs {
-		t.Run(tc.name, func(t *testing.T) {
+		t.Run(tc.name, func(t *testing.T) { // HLrun
 			got := math.Abs(tc.val)
 			if tc.want != got {
 				t.Errorf("want: %f, got: %f", tc.want, got)
 			}
 		})
 	}
-
+	// end_TestTable_for OMIT
 }
 
 // end_TestTable OMIT
@@ -169,7 +172,7 @@ func TestTableParallel(t *testing.T) {
 		{name: "3s", sleep: 3 * time.Second},
 	}
 	// start_for_TestTableParallel OMIT
-	for _, tc := range tcs {
+	for _, tc := range tcs { // HLsharing
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()               // HL
 			t.Log("running ", tc.name) // HLsharing

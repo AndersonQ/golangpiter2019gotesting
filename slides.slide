@@ -2,6 +2,7 @@ Go testing: from basic to advanced
 2019 November 1
 
 Anderson Queiroz
+Lead Backend Engineer
 Blacklane
 
 @AinSoph
@@ -199,6 +200,15 @@ Lets write a wee test for `math.Abs`
 
 .code tips_test.go /start_TestTable OMIT/,/end_TestTable OMIT/
 
+* Table test: test cases
+
+.code tips_test.go /start_TestTable_tcs OMIT/,/end_TestTable_tcs OMIT/ HLtcs
+
+* Table test: for loop
+
+.code tips_test.go /start_TestTable_for OMIT/,/end_TestTable_for OMIT/ HLrun
+
+
 * Table test (output)
 
 - not verbose:
@@ -280,6 +290,11 @@ The goroutines are sharing the variable *tc*!
 * t.Parallel()
 Each goroutine has to have its own *tc*!
 
+.code tips_test.go /start_for_TestTableParallelFixed OMIT/,/end_for_TestTableParallelFixed OMIT/
+
+* t.Parallel()
+Fixed!
+
 .code tips_test.go /start_TestTableParallelFixed OMIT/,/end_TestTableParallelFixed OMIT/
 
 * t.Parallel()
@@ -293,6 +308,29 @@ If you write something like
 put a comment explaining why!
 
 We don't want a well intentioned engineer removing this _"useless"_ line
+
+* t.Parallel() (output)
+
+    $ go test -v -run TestTableParallelFixed
+    === RUN   TestTableParallelFixed
+    === RUN   TestTableParallelFixed/1s
+    === PAUSE TestTableParallelFixed/1s
+    === RUN   TestTableParallelFixed/2s
+    === PAUSE TestTableParallelFixed/2s
+    === RUN   TestTableParallelFixed/3s
+    === PAUSE TestTableParallelFixed/3s
+    === CONT  TestTableParallelFixed/1s
+    === CONT  TestTableParallelFixed/3s
+    === CONT  TestTableParallelFixed/2s
+    --- PASS: TestTableParallelFixed (0.00s)
+        --- PASS: TestTableParallelFixed/1s (1.00s)
+            tips_test.go:202: running  1s
+        --- PASS: TestTableParallelFixed/2s (2.00s)
+            tips_test.go:202: running  2s
+        --- PASS: TestTableParallelFixed/3s (3.00s)
+            tips_test.go:202: running  3s
+    PASS
+    ok  	github.com/AndersonQ/golangpiter2019gotesting	3.008s
 
 * t.Parallel()
 

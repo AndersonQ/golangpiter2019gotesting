@@ -22,6 +22,39 @@ https://github.com/AndersonQ/golangpiter2019gotesting
 
 .image imgs/name.png
 
+* whoami
+
+- Brazilian
+
+- Living in Berlin for almost 2 years
+
+- 15 years coding (I'm getting old...)
+
+- 2.5 writing Go
+
+- Gopher!
+
+* Agenda
+
+- Testing 101
+- Verbose and short flags
+- Helper functions
+- Table test
+- Parallel tests
+- Race detector
+- Test data
+- Blackbox testing
+- Integration test
+- Setup and teardown
+- Test cache
+
+* Let's Go
+
+.image imgs/gopher.svg 500 _
+.caption _Gopher_ by [[https://github.com/egonelbre/gophers][Egon Elbre]]
+
+* Testing 101
+
 * What is a test in go?
 
 - any file ending in *_test.go*
@@ -89,7 +122,21 @@ we need to mark a test as failed, skip test and so on.
   go test -run Foo/A=  # For top-level tests matching "Foo", run subtests matching "A=".
   go test -run /A=1    # For all top-level tests, run subtests matching "A=1".
 
+* Verbose and short flags
 
+* Agenda
+
+- Testing 101
+- *Verbose* *and* *short* *flags*
+- Helper functions
+- Table test
+- Parallel tests
+- Race detector
+- Test data
+- Blackbox testing
+- Integration test
+- Setup and teardown
+- Test cache
 
 * Verbose mode
 
@@ -149,6 +196,20 @@ we need to mark a test as failed, skip test and so on.
 
 * Helper functions
 
+* Agenda
+
+- Testing 101
+- Verbose and short flags
+- *Helper* *functions*
+- Table test
+- Parallel tests
+- Race detector
+- Test data
+- Blackbox testing
+- Integration test
+- Setup and teardown
+- Test cache
+
 * Helper functions
 
 Sometimes we need to do some setup. In order to not clog the test, a helper function is used:
@@ -189,6 +250,19 @@ We can invoke *t.Helper()* to signal it's a helper function and the error should
     FAIL	github.com/AndersonQ/golangpiter2019gotesting	0.005s
 
 * Table test
+
+* Agenda
+
+- Verbose and short flags
+- Helper functions
+- *Table* *test*
+- Parallel tests
+- Race detector
+- Test data
+- Blackbox testing
+- Integration test
+- Setup and teardown
+- Test cache
 
 * Table test
 
@@ -250,6 +324,19 @@ Lets write a wee test for `math.Abs`
 Too slow, we can do better!
 
 * t.Parallel() for the rescue
+
+* Agenda
+
+- Verbose and short flags
+- Helper functions
+- Table test
+- *Parallel* *tests*
+- Race detector
+- Test data
+- Blackbox testing
+- Integration test
+- Setup and teardown
+- Test cache
 
 * t.Parallel()
 
@@ -346,6 +433,19 @@ or to force them to run sequentially
 
 * Race detector!
 
+* Agenda
+
+- Verbose and short flags
+- Helper functions
+- Table test
+- Parallel tests
+- *Race* *detector*
+- Test data
+- Blackbox testing
+- Integration test
+- Setup and teardown
+- Test cache
+
 * Race detector
 
 As we're in the parallelism topic, since go 1.1 we have a built in race detector.
@@ -420,7 +520,20 @@ Just pass _-race_ and it'll kick in.
     exit status 1
     FAIL	github.com/AndersonQ/golangpiter2019gotesting	5.015s
 
-* testdata
+* Test Data
+
+* Agenda
+
+- Verbose and short flags
+- Helper functions
+- Table test
+- Parallel tests
+- Race detector
+- *Test* *data*
+- Blackbox testing
+- Integration test
+- Setup and teardown
+- Test cache
 
 * testdata
 
@@ -443,6 +556,19 @@ To access _testdata_ is as easy as:
 
 * Black box testing
 
+* Agenda
+
+- Verbose and short flags
+- Helper functions
+- Table test
+- Parallel tests
+- Race detector
+- Test data
+- *Blackbox* *testing*
+- Integration test
+- Setup and teardown
+- Test cache
+
 * "_test" package
 
 "Test files that declare a package with the suffix "_test" will be compiled as a separate package, and then linked and run with the main test binary." (go help test)
@@ -453,11 +579,47 @@ To access _testdata_ is as easy as:
 
 .code pwd/pwd_black_box_test.go /start_TestPackage_test OMIT/,/end_TestPackage_test OMIT/
 
+* "_test" package (output)
+
+- not verbose
+    $ go test -v -run TestPackage_test ./pwd
+    2019/11/01 10:10:46 pwd.PWD: /Users/aqueiroz/devel/github.com/AndersonQ/golangpiter2019gotesting/pwd
+    PASS
+    ok  	github.com/AndersonQ/golangpiter2019gotesting/pwd	0.007s
+
+- verbose
+    $ go test -v -run TestPackage_test ./pwd
+    === RUN   TestPackage_test
+    2019/11/01 10:10:58 pwd.PWD: /Users/aqueiroz/devel/github.com/AndersonQ/golangpiter2019gotesting/pwd
+    --- PASS: TestPackage_test (0.00s)
+    PASS
+    ok  	github.com/AndersonQ/golangpiter2019gotesting/pwd	0.007s
+
 * Integration test
+
+* Agenda
+
+- Verbose and short flags
+- Helper functions
+- Table test
+- Parallel tests
+- Race detector
+- Test data
+- Blackbox testing
+- *Integration* *test*
+- Setup and teardown
+- Test cache
 
 * Integration test
 
 .image imgs/unit_test_tweet.png
+
+* Integration test
+If it needs anything else rather than
+
+    go mod download
+
+it's not a unit test
 
 * Integration test
 
@@ -478,7 +640,6 @@ We can use build flags instead! Also naming the test files ___integration__test.
 
 testing: warning: no tests to run!
 
-
 * Integration test
 
 Let's try again passing your build tag *integration*
@@ -491,6 +652,19 @@ Let's try again passing your build tag *integration*
     ok  	github.com/AndersonQ/golangpiter2019gotesting	0.005s
 
 * Set up and Teardown
+
+* Agenda
+
+- Verbose and short flags
+- Helper functions
+- Table test
+- Parallel tests
+- Race detector
+- Test data
+- Blackbox testing
+- Integration test
+- *Setup* *and* *teardown*
+- Test cache
 
 * func TestMain(m *testing.M)
 
@@ -540,6 +714,19 @@ Watch out _MainTest_ receives a ***testing.M* instead of ***testing.T*
     FAIL
 
 * Test cache
+
+* Agenda
+
+- Verbose and short flags
+- Helper functions
+- Table test
+- Parallel tests
+- Race detector
+- Test data
+- Blackbox testing
+- Integration test
+- Setup and teardown
+- *Test* *cache*
 
 * Cached tests
 
